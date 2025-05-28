@@ -1,10 +1,10 @@
 package com.evofun.userservice.security.config;
 
-import com.evofun.userservice.security.jwt.JwtFilter;
-import com.evofun.userservice.security.jwt.JwtKeysConfig;
+//import com.evofun.userservice.security.jwt.JwtFilter;
+import com.evofun.userservice.security.jwt.JwtKeysProperties;
 import com.evofun.userservice.security.jwt.JwtToPrincipalConverter;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,22 +15,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+///    private final SystemJwtFilter systemJwtFilter;
+    private final JwtKeysProperties jwtKeysProperties;
 
-    private final JwtFilter jwtFilter;
-    private final JwtKeysConfig jwtKeysConfig;
-
-    public SecurityConfig(JwtFilter jwtFilter, JwtKeysConfig jwtKeysConfig) {
-        this.jwtFilter = jwtFilter;
-        this.jwtKeysConfig = jwtKeysConfig;
+    public SecurityConfig(/*JwtFilter jwtFilter,*/ JwtKeysProperties jwtKeysProperties) {
+///        this.jwtFilter = jwtFilter; //add here future SystemJwtFilter
+        this.jwtKeysProperties = jwtKeysProperties;
     }
 
     @Bean
@@ -62,7 +58,8 @@ public class SecurityConfig {
                                 .jwtAuthenticationConverter(new JwtToPrincipalConverter())
                         )
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+///                .addFilterBefore(systemJwtFilter, UsernamePasswordAuthenticationFilter.class) //for future SystemJwtFilter
+                //TODO when create SystemJwtFiler - add it here
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
@@ -78,7 +75,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        SecretKey key = jwtKeysConfig.getAuthKey(); // тут уже готовый ключ
+        SecretKey key = jwtKeysProperties.getAuthKey(); // тут уже готовый ключ
         return NimbusJwtDecoder.withSecretKey(key).build();
     }
 }

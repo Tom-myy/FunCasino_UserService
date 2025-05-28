@@ -1,3 +1,4 @@
+/* //TODO change this filter (auth filter) to SystemJwtFiler
 package com.evofun.userservice.security.jwt;
 
 import com.evofun.userservice.common.error.ErrorCode;
@@ -60,6 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String path = request.getRequestURI();
 
+*/
 /*        // 👇 если это WebSocket-запрос — пропускаем без JWT-проверки
         if (path.startsWith("/ws") || path.startsWith("/websocket")) {
             filterChain.doFilter(request, response);
@@ -83,7 +85,8 @@ public class JwtFilter extends OncePerRequestFilter {
             logger.debug(">>> Swagger path — skipping JwtFilter");
             filterChain.doFilter(request, response);
             return;
-        }*/
+        }*//*
+
 
 
 
@@ -137,3 +140,4 @@ public class JwtFilter extends OncePerRequestFilter {
         response.flushBuffer();
     }
 }
+*/
