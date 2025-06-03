@@ -1,14 +1,19 @@
 package com.evofun.userservice.rest.forGame;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 public class GameConnection {
+
+    @Value("${game-service.base-url}")
+    private String baseGameServiceUrl;
+
     public boolean isGameServiceAlive() {
         try {
             //TODO put port through file (application-dev.yml)
-            WebClient client = WebClient.create("http://localhost:8081");
+            WebClient client = WebClient.create(baseGameServiceUrl);
 
             client.get()//TODO understand...
                     .uri("/actuator/health")
@@ -24,7 +29,7 @@ public class GameConnection {
 
     public String getWsLinkForGame() {
         //TODO put port through file (application-dev.yml)
-        WebClient client = WebClient.create("http://localhost:8081");
+        WebClient client = WebClient.create(baseGameServiceUrl);
 
         return client.get()
                 .uri("/api/game-service/gameAccess")
