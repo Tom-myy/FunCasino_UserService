@@ -6,6 +6,7 @@ import com.evofun.userservice.common.dto.UserInternalDto;
 import com.evofun.userservice.common.mapper.UserMapper;
 import com.evofun.userservice.rest.dto.request.UpdateProfileRequestDto;
 import com.evofun.userservice.rest.dto.response.UserProfileResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Hidden
 @RestController
 @RequestMapping("/api/internal")
 public class InternalGameServiceController {

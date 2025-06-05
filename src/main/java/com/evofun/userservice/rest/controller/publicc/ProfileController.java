@@ -12,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
-@Tag(name = "methods_2")
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/profile")
