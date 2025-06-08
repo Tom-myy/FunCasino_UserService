@@ -50,56 +50,56 @@ import java.util.UUID;
 @NoArgsConstructor
 //@AllArgsConstructor
 @Entity
-@Table(name = "\"EvoUser\"")
+@Table(name = "users")
 public class User {
 
     @Version
-    @Column(name = "\"version\"")
+    @Column(name = "version")
     private long version;
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "\"userID\"", updatable = false, nullable = false, unique = true)
-    private UUID userID;
+    @Column(name = "user_id", updatable = false, nullable = false, unique = true)
+    private UUID userId;
 
-    @Column(name = "\"name\"", nullable = false, length = 128)
+    @Column(name = "name", nullable = false, length = 128)
     private String name;
 
-    @Column(name = "\"surname\"", nullable = false, length = 128)
+    @Column(name = "surname", nullable = false, length = 128)
     private String surname;
 
-    @Column(name = "\"nickname\"", nullable = false, unique = true, length = 50)
+    @Column(name = "nickname", nullable = false, unique = true, length = 50)
     private String nickname;
 
-    @Column(name = "\"phoneNumber\"", nullable = false, length = 30)
+    @Column(name = "phone_number", nullable = false, length = 30)
     private String phoneNumber;
 
-    @Column(name = "\"email\"", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
 /*    @Column(name = "\"login\"", nullable = false, length = 64)
     private String login;*/
 
-    @Column(name = "\"pass\"", nullable = false, length = 60) // Для bcrypt-хэша
-    private String pass;
+    @Column(name = "password", nullable = false, length = 60) // Для bcrypt-хэша
+    private String password;
 
-    @Column(name = "\"balance\"", nullable = false)
+    @Column(name = "balance", nullable = false)
     private BigDecimal balance = BigDecimal.valueOf(1000);
 
     @PrePersist
     protected void onCreate() {
-        if (userID == null) {
-            userID = UUID.randomUUID();
+        if (userId == null) {
+            userId = UUID.randomUUID();
         }
     }
 
-    public User(String name, String surname, String nickname, String phoneNumber, String email, String pass) {
+    public User(String name, String surname, String nickname, String phoneNumber, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.pass = pass;
+        this.password = password;
     }
 }

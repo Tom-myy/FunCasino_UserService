@@ -16,7 +16,7 @@ public class JwtUtil {
     }
 
     public JwtResponse generateUserResponse(User user) {
-        return new JwtResponse(generateAuthToken(user), user.getUserID(), user.getNickname());
+        return new JwtResponse(generateAuthToken(user), user.getUserId(), user.getNickname());
     }
 
     public String generateGameToken(JwtUser user) {
@@ -31,7 +31,7 @@ public class JwtUtil {
 
     private String generateAuthToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getUserID().toString())
+                .setSubject(user.getUserId().toString())
                 .claim("nickname", user.getNickname())
 ///                .claim("role", user.getRole()) when add role for users in DB
                 .setIssuedAt(new Date())

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class UserMapper {
     public UserInternalDto convertToUserInternalDto(User user) {
         return new UserInternalDto(
-                user.getUserID(),
+                user.getUserId(),
                 user.getName(),
                 user.getSurname(),
                 user.getNickname(),
@@ -22,7 +22,7 @@ public class UserMapper {
 
     public UserProfileResponse toProfile(User user) {
         return new UserProfileResponse(
-                user.getUserID(),
+                user.getUserId(),
                 user.getName(),
                 user.getSurname(),
                 user.getNickname(),

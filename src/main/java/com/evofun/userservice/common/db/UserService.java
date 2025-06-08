@@ -61,7 +61,7 @@ public class UserService {
                 .map(user -> evoUserRepo.findById(user.getUserUUID())
                         .orElseThrow(() -> new RuntimeException("User not found")))
                 .map(user -> new UserInternalDto(
-                        user.getUserID(),
+                        user.getUserId(),
                         user.getName(),
                         user.getSurname(),
                         user.getNickname(),

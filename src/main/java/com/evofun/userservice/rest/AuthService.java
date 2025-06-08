@@ -47,7 +47,7 @@ public class AuthService {
                     });
         }
 
-        if (!passwordEncoder.matches(request.getPass(), user.getPass())) {
+        if (!passwordEncoder.matches(request.getPass(), user.getPassword())) {
             logger.warn("Incorrect password for nickname: {}", request.getLogin());
             throw new InvalidCredentialsException();
         }
