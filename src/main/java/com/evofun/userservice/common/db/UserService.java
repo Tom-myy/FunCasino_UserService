@@ -4,11 +4,15 @@ import com.evofun.userservice.common.db.entity.User;
 import com.evofun.userservice.common.dto.UserInternalDto;
 import com.evofun.userservice.common.error.FieldErrorDto;
 import com.evofun.userservice.common.mapper.UserMapper;
+import com.evofun.userservice.rest.dto.request.TransferBetweenBalancesDto;
 import com.evofun.userservice.rest.dto.request.UpdateProfileRequestDto;
 import com.evofun.userservice.rest.dto.response.UserProfileResponse;
 import com.evofun.userservice.rest.exception.AlreadyExistsException;
 import com.evofun.userservice.rest.exception.UserNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,9 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+    @Value("${money-service.money-url}")
+    private String moneyServiceUrl;
+
     private final UserRepository evoUserRepo;
     private final UserMapper userMapper;
 
@@ -45,7 +52,7 @@ public class UserService {
         return evoUserRepo.save(user);
     }
 
-    public List<UserInternalDto> updateUsersAfterGame(List<UserInternalDto> userDtoList) {
+/*    public List<UserInternalDto> updateUsersAfterGame(List<UserInternalDto> userDtoList) {
         for (UserInternalDto userDto : userDtoList) {
             User user = evoUserRepo.findById(userDto.getUserUUID())
                     .orElseThrow(() -> new RuntimeException("User not found"));
@@ -65,21 +72,27 @@ public class UserService {
                         user.getName(),
                         user.getSurname(),
                         user.getNickname(),
-                        user.getBalance(),
+//                        user.getBalance(),
                         BigDecimal.ZERO
                 ))
                 .toList();
 
-    }
+    }*/
 
     public UserProfileResponse getProfile(UUID userId) {
-        User user = evoUserRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User with UUID (" + userId + ") not found in DB during profile getting (REST)."));
+        User user = evoUserRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(
+                "User with UUID (" + userId + ") not found in DB during profile getting (REST).",
+                "User not found. Sign up or contact support."
+        ));
 
         return userMapper.toProfile(user);
     }
 
     public UserProfileResponse updateProfile(UUID userId, UpdateProfileRequestDto request) {
-        User user = evoUserRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User with UUID (" + userId + ") not found in DB during profile updating (REST)."));
+        User user = evoUserRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(
+                "User with UUID (" + userId + ") not found in DB during profile updating (REST).",
+                "User not found. Sign up or contact support."
+        ));
 
         boolean isSmthChanged = applyAndCheckChanges(request, user);
 
@@ -139,5 +152,16 @@ public class UserService {
         }
 
         return isSmthChanged;
+    }
+
+    public void transferBetweenBalances(TransferBetweenBalancesDto request) {
+        WebClient client = WebClient.create(moneyServiceUrl);
+
+        client.post()
+                .uri(moneyServiceUrl + "/api/internal/transferBetweenBalances")
+                .bodyValue(request)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
     }
 }

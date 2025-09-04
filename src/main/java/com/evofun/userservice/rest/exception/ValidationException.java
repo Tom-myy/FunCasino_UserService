@@ -1,7 +1,7 @@
 package com.evofun.userservice.rest.exception;
 
-public class ValidationException extends RuntimeException {
-    public ValidationException(String message) {
-        super(message);
+public class ValidationException extends AppException {
+    public ValidationException(String developerMessage, String userMessage) {
+        super(developerMessage, userMessage);
     }
 }

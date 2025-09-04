@@ -4,6 +4,30 @@ spring:
   profiles:
     active: dev  #default profile
 
+  #it's for NoHandlerFoundException (without - doesn't work)
+  web:
+    resources:
+      add-mappings: false
+
+  #to avoid restarting project after changes...
+  devtools:
+    restart:
+      enabled: false
+
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: true
+#        spring.json.use.type.headers: false
+
 jwt:
   auth-secret: ${JWT_AUTH_SECRET}
   game-secret: ${JWT_GAME_SECRET}
@@ -11,3 +35,6 @@ jwt:
 
 game-service:
   base-url: ${GAME_SERVICE_BASE_URL}
+
+money-service:
+  money-url: ${MONEY_SERVICE_URL}

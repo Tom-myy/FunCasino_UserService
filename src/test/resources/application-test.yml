@@ -14,3 +14,9 @@ spring:
 
 jwt:
   auth-secret: evofun-test-auth-key-256-bit-2025-abcxyz$$
+
+game-service:
+  base-url: http://localhost:8081
+
+money-service:
+  money-url: http://localhost:8082

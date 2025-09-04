@@ -1,7 +1,7 @@
 package com.evofun.userservice.rest.exception;
 
-public class TokenExpiredException extends RuntimeException {
-    public TokenExpiredException(String message) {
-        super(message);
+public class TokenExpiredException extends AppException {
+    public TokenExpiredException(String developerMessage, String userMessage) {
+        super(developerMessage, userMessage);
     }
 }

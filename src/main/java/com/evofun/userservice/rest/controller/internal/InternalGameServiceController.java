@@ -38,10 +38,10 @@ public class InternalGameServiceController {
         }
     }
 
-    @PatchMapping("/updateUsersAfterGame")
+/*    @PatchMapping("/updateUsersAfterGame")
     public ResponseEntity<List<UserInternalDto>> updateUsersAfterGame(@RequestBody List<UserInternalDto> userDtoList) {
         return ResponseEntity.ok(userService.updateUsersAfterGame(userDtoList));
-    }
+    }*/
 
     @PatchMapping("/update")
     public ResponseEntity<UserProfileResponse> updateMyProfile(

@@ -13,16 +13,16 @@ public class UserInternalDto {
     private String name;
     private String surname;
     private String nickname;
-    private BigDecimal balance;
+//    private BigDecimal balance;
     //internal:
     private BigDecimal balanceDelta;
 
-    public UserInternalDto(UUID userUUID, String name, String surname, String nickName, BigDecimal balance, BigDecimal balanceDelta) {
+    public UserInternalDto(UUID userUUID, String name, String surname, String nickName, /*BigDecimal balance,*/ BigDecimal balanceDelta) {
         this.userUUID = userUUID;
         this.name = name;
         this.surname = surname;
         this.nickname = nickName;
-        this.balance = balance;
+//        this.balance = balance;
         this.balanceDelta = balanceDelta;
     }
 

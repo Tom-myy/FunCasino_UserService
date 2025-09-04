@@ -1,8 +1,7 @@
 package com.evofun.userservice.rest.exception;
 
-public class InvalidCredentialsException extends RuntimeException {
-    public InvalidCredentialsException() {
-        super("Invalid credentials");
+public class InvalidCredentialsException extends AppException {
+    public InvalidCredentialsException(String developerMessage) {
+        super(developerMessage, "Invalid credentials");
     }
 }
-

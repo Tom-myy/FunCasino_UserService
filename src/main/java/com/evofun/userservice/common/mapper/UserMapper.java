@@ -15,7 +15,7 @@ public class UserMapper {
                 user.getName(),
                 user.getSurname(),
                 user.getNickname(),
-                user.getBalance(),
+//                user.getBalance(),
                 BigDecimal.ZERO
         );
     }
@@ -27,8 +27,8 @@ public class UserMapper {
                 user.getSurname(),
                 user.getNickname(),
                 user.getPhoneNumber(),
-                user.getEmail(),
-                user.getBalance()
+                user.getEmail()
+//                user.getBalance()
         );
     }
 }

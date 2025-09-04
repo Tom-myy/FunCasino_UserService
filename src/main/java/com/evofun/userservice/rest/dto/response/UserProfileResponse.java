@@ -15,17 +15,17 @@ public class UserProfileResponse {
     private String nickname;
     private String phoneNumber;
     private String email;
-    private BigDecimal balance;
+//    private BigDecimal balance;
 
     public UserProfileResponse() {}
 
-    public UserProfileResponse(UUID userId, String name, String surname, String nickname, String phoneNumber, String email, BigDecimal balance) {
+    public UserProfileResponse(UUID userId, String name, String surname, String nickname, String phoneNumber, String email/*, BigDecimal balance*/) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.balance = balance;
+//        this.balance = balance;
     }
 }

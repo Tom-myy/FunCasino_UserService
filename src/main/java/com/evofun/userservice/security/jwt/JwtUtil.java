@@ -24,7 +24,7 @@ public class JwtUtil {
                 .setSubject(user.getUserId().toString())
                 .claim("nickname", user.getNickname())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 2 * 60 * 1000)) //2 min
+                .setExpiration(new Date(System.currentTimeMillis() + /*2*/ 1440 * 60 * 1000)) //2 min -> 1 day
                 .signWith(jwtKeysProperties.getGameKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

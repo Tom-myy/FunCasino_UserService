@@ -1,10 +1,9 @@
 package com.evofun.userservice.security.config;
 
-//import com.evofun.userservice.security.jwt.JwtFilter;
+import com.evofun.userservice.security.CustomAccessDeniedHandler;
+import com.evofun.userservice.security.JwtAuthEntryPoint;
 import com.evofun.userservice.security.jwt.JwtKeysProperties;
 import com.evofun.userservice.security.jwt.JwtToPrincipalConverter;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import javax.crypto.SecretKey;
 
 @Configuration
@@ -23,10 +21,16 @@ import javax.crypto.SecretKey;
 public class SecurityConfig {
 ///    private final SystemJwtFilter systemJwtFilter;
     private final JwtKeysProperties jwtKeysProperties;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    public SecurityConfig(/*JwtFilter jwtFilter,*/ JwtKeysProperties jwtKeysProperties) {
+    public SecurityConfig(/*JwtFilter jwtFilter,*/ JwtKeysProperties jwtKeysProperties,
+                                                   JwtAuthEntryPoint jwtAuthEntryPoint1,
+                                                   CustomAccessDeniedHandler customAccessDeniedHandler1) {
 ///        this.jwtFilter = jwtFilter; //add here future SystemJwtFilter
         this.jwtKeysProperties = jwtKeysProperties;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint1;
+        this.customAccessDeniedHandler = customAccessDeniedHandler1;
     }
 
     @Bean
@@ -37,6 +41,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // ← теперь так
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/internal/**").permitAll()
+                                .requestMatchers("/error").permitAll()
 //                        .requestMatchers("/api/internal/**").hasAuthority("ROLE_SERVICE")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/ws/**").permitAll()
@@ -54,6 +59,7 @@ public class SecurityConfig {
                 //here we use our JwtToPrincipalConverter
                 // (for @AuthenticationPrincipal in controllers):
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .authenticationEntryPoint(jwtAuthEntryPoint)
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(new JwtToPrincipalConverter())
                         )
@@ -61,9 +67,8 @@ public class SecurityConfig {
 ///                .addFilterBefore(systemJwtFilter, UsernamePasswordAuthenticationFilter.class) //for future SystemJwtFilter
                 //TODO when create SystemJwtFiler - add it here
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-                        })
+                        .authenticationEntryPoint(jwtAuthEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .build();
     }
@@ -75,7 +80,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        SecretKey key = jwtKeysProperties.getAuthKey(); // тут уже готовый ключ
+        SecretKey key = jwtKeysProperties.getAuthKey();
         return NimbusJwtDecoder.withSecretKey(key).build();
     }
 }

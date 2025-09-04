@@ -1,49 +1,9 @@
-/*
-package com.example.evoFunServer.entity;
-
-import jakarta.persistence.*;
-import lombok.*;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "\"EvoUser\"")
-public class EvoUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "\"userID\"")
-    private Long userID;
-    @Column(name = "\"name\"")
-    private String name;
-    @Column(name = "\"surname\"")
-    private String surname;
-    @Column(name = "\"nickname\"")
-    private String nickname;
-    @Column(name = "\"phoneNumber\"")
-    private String phoneNumber;
-    @Column(name = "\"email\"")
-    private String email;
-    @Column(name = "\"login\"")
-    private String login;
-    @Column(name = "\"pass\"")
-    private String pass;
-    @Column(name = "\"balance\"")
-    private int balance;
-
-
-}
-*/
-
-
 package com.evofun.userservice.common.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -53,13 +13,13 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
 
-    @Version
+/*    @Version
     @Column(name = "version")
-    private long version;
+    private long version;delete*/
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+//    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "user_id", updatable = false, nullable = false, unique = true)
     private UUID userId;
 
@@ -78,23 +38,17 @@ public class User {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-/*    @Column(name = "\"login\"", nullable = false, length = 64)
-    private String login;*/
-
     @Column(name = "password", nullable = false, length = 60) // Для bcrypt-хэша
     private String password;
 
-    @Column(name = "balance", nullable = false)
-    private BigDecimal balance = BigDecimal.valueOf(1000);
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private OffsetDateTime createdAt; //through DB
 
-    @PrePersist
-    protected void onCreate() {
-        if (userId == null) {
-            userId = UUID.randomUUID();
-        }
-    }
+    @Column(name = "updated_at", insertable = false, updatable = false)
+    private OffsetDateTime updatedAt; //through DB
 
     public User(String name, String surname, String nickname, String phoneNumber, String email, String password) {
+        userId = UUID.randomUUID();//
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
