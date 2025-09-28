@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "outbox")
@@ -29,7 +31,8 @@ public class OutboxEvent {
     @Column(name = "event_type", nullable = false, updatable = false)
     private String eventType;
 
-    @Column(name = "payload", nullable = false, updatable = false)
+    @Column(name = "payload", nullable = false, updatable = false, columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String payload;
 
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -45,6 +45,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/api/internal/**").hasAuthority("ROLE_SERVICE")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/ws/**").permitAll()
+                                .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                                 .requestMatchers(
                                         "/swagger-ui.html",
                                         "/swagger-ui/**",

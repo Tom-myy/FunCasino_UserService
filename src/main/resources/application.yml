@@ -4,15 +4,16 @@ spring:
   profiles:
     active: dev  #default profile
 
+
   #it's for NoHandlerFoundException (without - doesn't work)
   web:
     resources:
       add-mappings: false
 
-  #to avoid restarting project after changes...
-  devtools:
-    restart:
-      enabled: false
+
+  #for avoiding Open-In-View warnings:
+  jpa:
+    open-in-view: false
 
 #  kafka:
 #    bootstrap-servers: localhost:9092
@@ -38,3 +39,15 @@ game-service:
 
 money-service:
   money-url: ${MONEY_SERVICE_URL}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
