@@ -29,18 +29,6 @@ spring:
         spring.json.add.type.headers: true
 #        spring.json.use.type.headers: false
 
-jwt:
-  auth-secret: ${JWT_AUTH_SECRET}
-  game-secret: ${JWT_GAME_SECRET}
-  system-secret: ${JWT_SYSTEM_SECRET}
-
-game-service:
-  base-url: ${GAME_SERVICE_BASE_URL}
-
-money-service:
-  money-url: ${MONEY_SERVICE_URL}
-
-
 management:
   endpoints:
     web:
@@ -51,3 +39,34 @@ management:
       probes:
         enabled: true
       show-details: never
+
+#jwt:
+#  auth-secret: ${JWT_AUTH_SECRET}
+#  game-secret: ${JWT_GAME_SECRET}
+#  system-secret: ${JWT_SYSTEM_SECRET}
+#
+#game-service:
+#  base-url: ${GAME_SERVICE_BASE_URL}
+#
+#money-service:
+#  money-url: ${MONEY_SERVICE_URL}
+
+clients:
+  services:
+    money:
+      base-url: ${MONEY_SERVICE_BASE_URL}
+    game:
+      base-url: ${GAME_SERVICE_BASE_URL}
+
+jwt:
+  secrets:
+    user: ${JWT_USER_SECRET}         # user JWT
+    internal: ${JWT_INTERNAL_SECRET} # internal JWT (interservice)
+
+security:
+  user:
+    issuer: ${JWT_USER_ISSUER}
+  internal:
+    issuer: ${JWT_INTERNAL_ISSUER}
+    expected-audience: user-service
+    allowed-subjects: money-service,game-service

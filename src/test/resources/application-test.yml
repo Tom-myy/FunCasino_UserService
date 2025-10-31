@@ -1,22 +1,50 @@
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    show-sql: true
+#  h2:
+#    console:
+#      enabled: false
+#
+#jwt:
+#  auth-secret: evofun-test-auth-key-256-bit-2025-abcxyz$$
+#
+#game-service:
+#  base-url: http://localhost:8081
+#
+#money-service:
+#  money-url: http://localhost:8082
+
+
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+  flyway:
+    enabled: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-  h2:
-    console:
-      enabled: false
+      ddl-auto: none
+
+clients:
+  services:
+    money:
+      base-url: http://localhost:8082
+    game:
+      base-url: http://localhost:8083
 
 jwt:
-  auth-secret: evofun-test-auth-key-256-bit-2025-abcxyz$$
+  secrets:
+    user: evofun-secret-user-key-2025-abc123$$-dev         # user JWT
+    internal: evofun-secret-internal-key-2025-abc123$$-dev # internal JWT (interservice)
 
-game-service:
-  base-url: http://localhost:8081
-
-money-service:
-  money-url: http://localhost:8082
+security:
+  user:
+    issuer: https://user-service-dev
+  internal:
+    issuer: https://evofun-internal-dev
+    expected-audience: user-service
+    allowed-subjects: money-service,game-service

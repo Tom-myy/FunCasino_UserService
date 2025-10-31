@@ -23,7 +23,7 @@ class GameControllerTest {
     private MockMvc mockMvc;
 
     private final TestUtils testUtils = new TestUtils();
-    //use login() from testUtils where it's possible
+    //use authentication() from testUtils where it's possible
 
     @BeforeEach
     public void setMockMvc () {
@@ -50,7 +50,7 @@ class GameControllerTest {
 
         String loginBody = """
                     {
-                      "login": "%s",
+                      "authentication": "%s",
                       "pass": "passTest"
                     }
                 """.formatted(email);
@@ -74,7 +74,7 @@ class GameControllerTest {
 
         String loginBody = """
                     {
-                      "login": "%s",
+                      "authentication": "%s",
                       "pass": "passTest"
                     }
                 """.formatted(nickName);
