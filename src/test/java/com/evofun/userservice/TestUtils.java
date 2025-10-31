@@ -45,7 +45,7 @@ public class TestUtils {
     public MvcResult login(String login, String pass) throws Exception {
         String request = """
                 {
-                          "login": "%s",
+                          "authentication": "%s",
                           "pass": "%s"
                 }
                 """.formatted(login, pass);

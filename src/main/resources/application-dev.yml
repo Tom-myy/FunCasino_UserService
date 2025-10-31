@@ -1,3 +1,6 @@
+server:
+  port: 8091
+
 spring:
   datasource:
     url: ${DB_URL}
@@ -8,11 +11,23 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-#    naming:
-#      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: false
+
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/user_db
+    user: service_migrator
+    password: moneyservicedb_migrator_pass
+
+    locations: classpath:db/migration
+
+    default-schema: user_schema
+    schemas: user_schema
+    create-schemas: false
+
+# Swagger
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

@@ -169,15 +169,15 @@ public class ProfileControllerTest {
 
 
 
-    private MvcResult login(String login, String pass) throws Exception {
+    private MvcResult authentication(String authentication, String pass) throws Exception {
         String request = """
                 {
-                          "login": "%s",
+                          "authentication": "%s",
                           "pass": "%s"
                 }
-                """.formatted(login, pass);
+                """.formatted(authentication, pass);
 
-        MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/authentication")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
